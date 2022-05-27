@@ -26,6 +26,14 @@ enemigo_y = random.randint(50, 200)
 enemigo_x_cambio = 1
 enemigo_y_cambio = 50
 
+# Bala
+img_bala = pygame.image.load('./img/bala.png')
+bala_x = 0
+bala_y = 500
+bala_x_cambio = 0
+bala_y_cambio = 1
+bala_visible = False
+
 # Funcion jugador
 
 
@@ -37,6 +45,13 @@ def jugador(x, y):
 
 def enemigo(x, y):
     pantalla.blit(img_enemigo, (x, y))
+
+
+# Funcion disparar bala
+def disparar_bala(x, y):
+    global bala_visible
+    bala_visible = True
+    pantalla.blit(img_bala, (x + 16, y + 10))
 
 
 # Loop del juego
@@ -54,7 +69,7 @@ while se_ejecuta:
         if evento.type == pygame.QUIT:
             se_ejecuta = False
 
-        # Evento precionar flechas
+        # Evento precionar teclas
         if evento.type == pygame.KEYDOWN:
 
             if evento.key == pygame.K_LEFT:
@@ -62,6 +77,11 @@ while se_ejecuta:
 
             if evento.key == pygame.K_RIGHT:
                 jugador_x_cambio = 1
+
+            if evento.key == pygame.K_SPACE:
+                if not bala_visible:
+                    bala_x = jugador_x
+                    disparar_bala(bala_x, bala_y)
 
         # Evento soltar flechas
         if evento.type == pygame.KEYUP:
@@ -89,6 +109,15 @@ while se_ejecuta:
     elif enemigo_x >= 736:
         enemigo_x_cambio = -1
         enemigo_y += enemigo_y_cambio
+
+    # Movimiento bala
+    if bala_y <= -32:
+        bala_y = 500
+        bala_visible = False
+
+    if bala_visible:
+        disparar_bala(bala_x, bala_y)
+        bala_y -= bala_y_cambio
 
     # Pintando al jugador
     jugador(jugador_x, jugador_y)
