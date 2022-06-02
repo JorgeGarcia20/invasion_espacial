@@ -173,7 +173,7 @@ while se_ejecuta:
         colision = hay_colision(
             enemigo_x[e], enemigo_y[e], bala_x, bala_y)
         if colision:
-            sonido_colision = mixer.Sound('./sound/golpe.mp3')
+            sonido_colision = mixer.Sound('./sound/Golpe.mp3')
             sonido_colision.play()
             bala_y = 500
             bala_visible = False
